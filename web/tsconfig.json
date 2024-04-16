@@ -16,7 +16,7 @@
       }
     ],
     "paths": {
-      "@/*": ["./web/src/*"]
+      "@/*": ["./src/*"]
     },
     "skipLibCheck": true,
     "strict": false,
