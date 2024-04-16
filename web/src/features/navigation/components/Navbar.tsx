@@ -13,7 +13,7 @@ const navigation = [
 export function Navbar() {
   const path = usePathname();
   return (
-    <nav className="bg-black sticky top-0 z-30 backdrop-blur-md w-full">
+    <nav className="bg-black sticky top-0 z-30 backdrop-blur-md w-full font-mono">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 w-full">
         <div className="relative flex h-12 items-center justify-between">
           {/* desktop menu button */}

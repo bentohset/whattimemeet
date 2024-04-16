@@ -2,7 +2,7 @@ import React from "react";
 
 export const Footer = () => {
   return (
-    <div className="bg-black w-full">
+    <div className="bg-black w-full font-mono">
       <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8 w-full">
         <div className="relative flex h-12 items-center justify-between">
           {/* desktop menu button */}
