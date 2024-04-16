@@ -6,6 +6,7 @@ import type {
   FieldValues,
   UseFormReturn,
 } from "react-hook-form";
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { useMediaQuery } from "usehooks-ts";
 
 import { Button } from "@/components/ui/button";
