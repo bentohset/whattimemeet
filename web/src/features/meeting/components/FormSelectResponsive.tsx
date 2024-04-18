@@ -1,4 +1,7 @@
 /* eslint-disable @typescript-eslint/no-use-before-define */
+
+"use client";
+
 import { Check, ChevronDown } from "lucide-react";
 import React from "react";
 import type {
@@ -44,6 +47,15 @@ const FormSelectResponsive = ({ field, data, form, placeholder }: Props) => {
   const [open, setOpen] = React.useState(false);
 
   const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  // solves hydration error from useMediaQuery
+  const [hasMounted, setHasMounted] = React.useState(false);
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
+  if (!hasMounted) {
+    return null;
+  }
 
   if (isDesktop) {
     return (

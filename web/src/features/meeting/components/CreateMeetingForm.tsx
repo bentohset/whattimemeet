@@ -136,11 +136,7 @@ export const CreateMeetingForm = () => {
           />
         </div>
 
-        <Button
-          type="submit"
-          className="w-full bg-[length:900px_900px] brightness-125 bg-center hover:opacity-90"
-          style={{ backgroundImage: `url(/bg/primary-small-compressed.png)` }}
-        >
+        <Button type="submit" className="w-full">
           Submit
         </Button>
       </form>
