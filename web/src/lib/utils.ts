@@ -77,3 +77,8 @@ export function convert2DArrayToString(array: number[][]) {
   const resultString = array.map((row) => row.join(" ")).join(" ");
   return resultString;
 }
+
+export function normalizeToScale(num: number, max: number, scale: number) {
+  const scaleFactor = max / scale;
+  return Math.round(num / scaleFactor);
+}

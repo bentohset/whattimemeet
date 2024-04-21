@@ -51,15 +51,19 @@ const page = ({ params }: { params: { id: string } }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userData, setUserData] = useState<Attendee | undefined>();
   const [userAvail, setUserAvail] = useState<number[][]>([]);
+  const [meeting, setMeeting] = useState(STUB);
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+
+  // TODO: query meeting on params.id in useEffect
 
   const handleLogin = (name: string) => {
-    console.log(name);
     setIsLoggedIn(true);
     const data = STUB;
-    const user = data.attendees.find((o) => o.name === name);
+    const user = data.attendees.find((o) => o.name === name); // TODO: replace with query
     const intervals = parseTimeStrings(data.startTime, data.endTime);
     const dates = data.dates.length;
 
+    // TODO: no need to create empty string; backend will do
     if (user) {
       const avail = convertStringTo2d(user.availability, intervals, dates);
       setUserData(user);
@@ -72,12 +76,11 @@ const page = ({ params }: { params: { id: string } }) => {
     }
   };
 
+  // TODO: use isFirstLoad state to stop inifinite saving
   const debounceTimeoutRef = useRef(null);
   useEffect(() => {
     const save = () => {
       console.log(userAvail);
-      const intervals = parseTimeStrings(STUB.startTime, STUB.endTime);
-      const dates = STUB.dates.length;
       const avail = convert2DArrayToString(userAvail);
       console.log(avail);
     };
@@ -112,11 +115,11 @@ const page = ({ params }: { params: { id: string } }) => {
       </section>
 
       <section className="w-full grid md:grid-cols-2 grid-cols-1 md:gap-x-12 gap-y-4 md:gap-y-0">
-        <MeetingSchedule data={STUB} />
+        <MeetingSchedule data={meeting} />
         {isLoggedIn ? (
           <Scheduler
             user={userData}
-            meeting={STUB}
+            meeting={meeting}
             setAvail={setUserAvail}
             userAvail={userAvail}
           />
