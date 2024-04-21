@@ -10,4 +10,5 @@ export interface Meeting {
 
 export interface Attendee {
   name: string;
+  availability: string;
 }

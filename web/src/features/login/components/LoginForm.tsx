@@ -30,6 +30,7 @@ export const LoginForm = (props: Props) => {
 
   function onSubmit(values: z.infer<typeof loginSchema>) {
     console.log(values);
+    form.reset();
     props.submitFn(values.name);
   }
 
