@@ -8,8 +8,7 @@ type Meeting struct {
 	ID          uuid.UUID  `gorm:"type:uuid"`
 	Title       string     `json:"title" validate:"required"`
 	Description *string    `json:"description"`
-	StartDate   string     `json:"startDate" validate:"required"`
-	EndDate     string     `json:"endDate" validate:"required"`
+	Dates   		string     `json:"dates" validate:"required"`
 	StartTime   string     `json:"startTime" validate:"required"`
 	EndTime     string     `json:"endTime" validate:"required"`
 	Attendees   []Attendee `json:"attendees"`
