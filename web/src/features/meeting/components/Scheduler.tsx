@@ -99,7 +99,7 @@ export const Scheduler = (props: Props) => {
                     className={cn(
                       "h-5 border-[0.5px]",
                       props.userAvail[row][col] === 1
-                        ? "bg-green-500 border-zinc-200"
+                        ? "bg-green-700 border-zinc-200"
                         : "bg-zinc-100 border-zinc-400",
                     )}
                   />

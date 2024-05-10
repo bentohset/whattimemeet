@@ -33,7 +33,7 @@ const STUB = {
     },
     {
       name: "dover",
-      availability: "0 0 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0",
+      availability: "0 1 0 0 0 0 0 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0",
     },
     {
       name: "mike",
@@ -79,10 +79,33 @@ const page = ({ params }: { params: { id: string } }) => {
   // TODO: use isFirstLoad state to stop inifinite saving
   const debounceTimeoutRef = useRef(null);
   useEffect(() => {
+    const updateMeeting = () => {
+      // find index of name
+      const index = meeting.attendees.findIndex(
+        (item) => item.name === userData.name,
+      );
+
+      if (index === -1) {
+        // if cannot find, append
+        const updatedMeeting = { ...meeting };
+        updatedMeeting.attendees.push({
+          name: userData.name,
+          availability: convert2DArrayToString(userAvail),
+        });
+        setMeeting(updatedMeeting);
+      } else {
+        // setmeeting at that index
+        const updatedMeeting = { ...meeting };
+        updatedMeeting.attendees[index].availability =
+          convert2DArrayToString(userAvail);
+        setMeeting(updatedMeeting);
+      }
+    };
+
     const save = () => {
-      console.log(userAvail);
       const avail = convert2DArrayToString(userAvail);
       console.log(avail);
+      // TODO: send request to backend
     };
 
     const debounce = () => {
@@ -92,10 +115,9 @@ const page = ({ params }: { params: { id: string } }) => {
       debounceTimeoutRef.current = setTimeout(save, DEBOUNCE_TIME);
     };
 
-    // Call debounce function whenever userAvail changes
     debounce();
+    if (userData && userData.name) updateMeeting();
 
-    // Cleanup function if needed
     return () => {
       if (debounceTimeoutRef.current) {
         clearTimeout(debounceTimeoutRef.current);

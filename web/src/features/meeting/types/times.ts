@@ -102,14 +102,24 @@ export const times = [
 ];
 
 export const colorMap = {
-  0: "bg-zinc-100 border-zinc-400",
-  1: "bg-green-900 border-zinc-200",
-  2: "bg-green-800 border-zinc-200",
-  3: "bg-green-700 border-zinc-200",
-  4: "bg-green-600 border-zinc-200",
-  5: "bg-green-500 border-zinc-200",
-  6: "bg-green-400 border-zinc-200",
-  7: "bg-green-300 border-zinc-200",
-  8: "bg-green-200 border-zinc-200",
-  9: "bg-green-100 border-zinc-200",
+  0: "bg-zinc-100",
+  1: "bg-green-900",
+  2: "bg-green-800",
+  3: "bg-green-700",
+  4: "bg-green-600",
+  5: "bg-green-500 border-zinc-700",
+  6: "bg-green-400 border-zinc-700",
+  7: "bg-green-300 border-zinc-700",
+  8: "bg-green-200 border-zinc-700",
+  9: "bg-green-100 border-zinc-700",
 };
+
+export const colorArr = [
+  "bg-green-700",
+  "bg-green-600",
+  "bg-green-500",
+  "bg-green-400",
+  "bg-green-300",
+  "bg-green-200",
+  "bg-green-100",
+];
