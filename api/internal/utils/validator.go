@@ -21,6 +21,7 @@ func ParseValidation(body interface{}) []*ValidationError {
 	if err != nil {
 		for _, err := range err.(validator.ValidationErrors) {
 			var el ValidationError
+			el.HasError = true
 			el.Field = err.Field()
 			el.Tag = err.Tag()
 			el.Value = err.Param()

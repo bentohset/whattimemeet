@@ -9,6 +9,8 @@ import (
 	"github.com/google/uuid"
 )
 
+// check if name and meetingID exists, return attendee entry.
+// else do nothing, updateMeeting creates new entry on frontend for new user
 func Login(c *fiber.Ctx) error {
 	db := database.DB
 
@@ -18,19 +20,19 @@ func Login(c *fiber.Ctx) error {
 	var attendee model.Attendee
 	// check if attendee with name and meetingId exists
 	db.Find(&attendee, "name = ? AND meeting_id = ?", data.Name, data.MeetingId)
-	if attendee.ID == uuid.Nil {
+	if attendee.MeetingID == uuid.Nil {
 		// does not exist, create attendee with empty availability
-		newAttendee := new(model.Attendee)
-		newAttendee.Name = data.Name
-		newAttendee.MeetingID = data.MeetingId
-		newAttendee.ID = uuid.New()
+		// newAttendee := new(model.Attendee)
+		// newAttendee.Name = data.Name
+		// newAttendee.MeetingID = data.MeetingId
+		// newAttendee.ID = uuid.New()
 
-		err := db.Create(&newAttendee).Error
-		if err != nil {
-			return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create attendee", "data": err})
-		}
+		// err := db.Create(&newAttendee).Error
+		// if err != nil {
+		// 	return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Could not create attendee", "data": err})
+		// }
 
-		return c.JSON(fiber.Map{"status": "success", "message": "New Attendee Logged In", "data": newAttendee})
+		return c.JSON(fiber.Map{"status": "success", "message": "New Attendee Logged In"})
 	}
 	// attendee exists
 	return c.JSON(fiber.Map{"status": "success", "message": "Attendee Logged In", "data": attendee})

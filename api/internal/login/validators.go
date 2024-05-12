@@ -18,7 +18,7 @@ func ValidateLogin(c *fiber.Ctx) error {
 
 	errors = utils.ParseValidation(body)
 	if errors != nil {
-		return c.Status(fiber.StatusBadRequest).JSON(errors)
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"status": "failed", "message": errors})
 	}
 
 	return c.Next()
