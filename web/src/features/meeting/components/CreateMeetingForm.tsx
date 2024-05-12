@@ -1,6 +1,8 @@
 "use client";
 
-import React from "react";
+import moment from "moment";
+import { useRouter } from "next/navigation";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import type * as z from "zod";
 
@@ -23,20 +25,43 @@ import { newMeetingSchema } from "../types/meeting.schema";
 import { times } from "../types/times";
 import FormSelectResponsive from "./FormSelectResponsive";
 
+import { createMeeting } from "@/api/meetingAPI";
+
 export const CreateMeetingForm = () => {
+  const router = useRouter();
   const form = useForm<z.infer<typeof newMeetingSchema>>({
     resolver: zodResolver(newMeetingSchema),
     defaultValues: {
       title: "",
       description: "",
       dates: [],
-      startTime: "",
-      endTime: "",
+      startTime: "0900",
+      endTime: "1700",
     },
   });
+  const [isLoading, setIsLoading] = useState(false);
+  async function onSubmit(values: z.infer<typeof newMeetingSchema>) {
+    setIsLoading(true);
 
-  function onSubmit(values: z.infer<typeof newMeetingSchema>) {
-    console.log(values);
+    const sortedDates = values.dates.sort((a: Date, b: Date) => a - b);
+
+    const dateStrings = sortedDates.map((date) =>
+      moment(date).format("DD-MM-YYYY"),
+    );
+
+    const response = await createMeeting({
+      title: values.title,
+      description: values.description,
+      dates: dateStrings,
+      startTime: values.startTime,
+      endTime: values.endTime,
+    });
+
+    if (response && response.status === "success") {
+      form.reset();
+      router.push(`/${response.data.id}`);
+    }
+    setIsLoading(false);
   }
 
   return (
@@ -136,7 +161,11 @@ export const CreateMeetingForm = () => {
           />
         </div>
 
-        <Button type="submit" className="w-full">
+        <Button
+          type="submit"
+          className="w-full"
+          disabled={form.formState.isLoading || isLoading}
+        >
           Submit
         </Button>
       </form>

@@ -2,6 +2,7 @@
 
 "use client";
 
+import moment from "moment";
 import React from "react";
 
 import {
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export const MeetingSchedule = (props: Props) => {
+  if (!props.data) return null;
   const intervals = parseTimeStrings(props.data.startTime, props.data.endTime);
   const hours = Number(props.data.startTime.slice(0, 2));
   const minutes = Number(props.data.startTime.slice(2));
@@ -34,40 +36,63 @@ export const MeetingSchedule = (props: Props) => {
     return `${displayNewHours}:${newMinutes.toString().padStart(2, "0")}${meridiem}`;
   });
 
-  const sumAvailability = (array) => {
-    // Split availability strings into arrays of integers
+  // const sumAvailability = (array) => {
+  //   // Split availability strings into arrays of integers
+  //   console.log(array);
+  //   if (!array || array.length === 0) {
+  //     return {
+  //       nested:
+  //       string:
+  //     }
+  //   }
+  //   const availabilityArrays = array.map((obj) => {
+  //     return { name: obj.name, value: obj.availability.split(" ").map(Number) };
+  //   });
+
+  //   // Sum up the availability arrays
+  //   const sumArray = availabilityArrays.reduce((acc, availability) => {
+  //     return availability.value.map((value, index) => acc[index] + value);
+  //   }, Array(24).fill(0));
+  //   console.log(availabilityArrays);
+  //   const combinedData = Array.from(
+  //     { length: availabilityArrays[0].value.length },
+  //     (_, i) => {
+  //       const names = [];
+  //       let total = 0;
+  //       for (const item of availabilityArrays) {
+  //         if (item.value[i] === 1) names.push(item.name);
+  //         total += item.value[i];
+  //       }
+  //       return { names, total };
+  //     },
+  //   );
+
+  //   // Convert the sum array back into a string format
+  //   const sumString = sumArray.join(" ");
+
+  //   return {
+  //     nested: combinedData,
+  //     string: sumString,
+  //   };
+  // };
+
+  function convertTo2DArray(array, rows: number, cols: number) {
     const availabilityArrays = array.map((obj) => {
       return { name: obj.name, value: obj.availability.split(" ").map(Number) };
     });
 
-    // Sum up the availability arrays
-    const sumArray = availabilityArrays.reduce((acc, availability) => {
-      return availability.value.map((value, index) => acc[index] + value);
-    }, Array(24).fill(0));
+    const combinedData = Array.from({ length: rows * cols }, (_, i) => {
+      const names = [];
+      let total = 0;
+      for (const item of availabilityArrays) {
+        if (item.value[i] === 1) names.push(item.name);
+        total += item.value[i];
+      }
+      return { names, total };
+    });
 
-    const combinedData = Array.from(
-      { length: availabilityArrays[0].value.length },
-      (_, i) => {
-        const names = [];
-        let total = 0;
-        for (const item of availabilityArrays) {
-          if (item.value[i] === 1) names.push(item.name);
-          total += item.value[i];
-        }
-        return { names, total };
-      },
-    );
+    const data = combinedData;
 
-    // Convert the sum array back into a string format
-    const sumString = sumArray.join(" ");
-
-    return {
-      nested: combinedData,
-      string: sumString,
-    };
-  };
-
-  function convertTo2DArray(data, rows: number, cols: number) {
     const result = Array.from({ length: rows }, () => Array(cols).fill([]));
     for (let i = 0; i < rows; i++) {
       for (let j = 0; j < cols; j++) {
@@ -81,7 +106,7 @@ export const MeetingSchedule = (props: Props) => {
   }
 
   const avails = convertTo2DArray(
-    sumAvailability(props.data.attendees).nested,
+    props.data.attendees,
     intervals,
     props.data.dates.length,
   );
@@ -93,11 +118,12 @@ export const MeetingSchedule = (props: Props) => {
     let g = 128;
     let b = 61;
 
-    if (value === totalPersons) {
-      return `rgb(${r} ${g} ${b})`;
-    }
     if (value === 0) {
       return "rgb(244 244 244)";
+    }
+
+    if (value === totalPersons && totalPersons !== 0) {
+      return `rgb(${r} ${g} ${b})`;
     }
 
     const fraction = 1 - value / totalPersons;
@@ -131,7 +157,12 @@ export const MeetingSchedule = (props: Props) => {
         {props.data.dates.map((date, col) => {
           return (
             <div key={date} className="w-full flex flex-col">
-              <h1 className="h-5">{date}</h1>
+              <h1 className="h-5 text-center">
+                <span>{moment(date, "DD-MM-YYYY").format("DD MMM")}</span>
+                <span className="text-xs ml-2">
+                  {moment(date, "DD-MM-YYYY").format("ddd")}
+                </span>
+              </h1>
               {timings.map((time, row) => {
                 return (
                   <TooltipProvider key={time} delayDuration={100}>

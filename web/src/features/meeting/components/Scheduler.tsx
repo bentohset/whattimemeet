@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useState } from "react";
 
 import { cn, parseTimeStrings } from "@/lib/utils";
@@ -84,7 +85,14 @@ export const Scheduler = (props: Props) => {
         {props.meeting.dates.map((date, col) => {
           return (
             <div key={date} className="w-full flex flex-col">
-              <h1 className="h-5">{date}</h1>
+              <div>
+                <h1 className="h-5 text-center">
+                  <span>{moment(date, "DD-MM-YYYY").format("DD MMM")}</span>
+                  <span className="text-xs ml-2">
+                    {moment(date, "DD-MM-YYYY").format("ddd")}
+                  </span>
+                </h1>
+              </div>
               {timings.map((time, row) => {
                 return (
                   <div

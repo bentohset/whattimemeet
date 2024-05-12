@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 
+import { Toaster } from "@/components/ui/toaster";
+
 import { Footer, Navbar } from "@/features/navigation";
 
 import "./globals.css";
@@ -24,6 +26,7 @@ export default function RootLayout({
           <Navbar />
           <div className="bg-white min-h-[600px]">{children}</div>
           <Footer />
+          <Toaster />
         </div>
       </body>
     </html>
