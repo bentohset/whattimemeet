@@ -13,7 +13,7 @@ import type { Attendee, Meeting } from "../types/meeting.type";
 type Props = {
   user: Attendee;
   meeting: Meeting;
-  setAvail: (avail: number[][]) => void;
+  setAvail: React.Dispatch<React.SetStateAction<number[][]>>;
   userAvail: number[][];
 };
 

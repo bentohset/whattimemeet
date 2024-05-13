@@ -10,7 +10,7 @@ const page = () => {
         <h1 className="font-bold text-2xl">What Time Meet?</h1>
         <div className="flex flex-col gap-y-4">
           <p className="">
-            WhatTimeMeet is a self-made improvement from the well-known{" "}
+            WhatTimeMeet is an improvement from the well-known{" "}
             <Link
               href="https://www.when2meet.com"
               target="__blank"
