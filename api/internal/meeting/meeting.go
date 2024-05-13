@@ -48,7 +48,6 @@ func UpdateAvailability(c *fiber.Ctx) error {
 
 	var updateBody UpdateAvailBody
 	c.BodyParser(&updateBody)
-	fmt.Println(updateBody)
 
 	// find meeting by id, if does not exists return error
 	var meeting model.Meeting
@@ -62,10 +61,10 @@ func UpdateAvailability(c *fiber.Ctx) error {
 	attendee.MeetingID = updateBody.MeetingId
 	attendee.Name = updateBody.Name
 	attendee.Availability = &updateBody.Availability
-	fmt.Println(attendee)
+
 	db.Clauses(
 		clause.OnConflict{
-			Columns: []clause.Column{{Name: "name"}, {Name: "meeting_id"}},
+			Columns:   []clause.Column{{Name: "name"}, {Name: "meeting_id"}},
 			DoUpdates: clause.Assignments(map[string]interface{}{"availability": attendee.Availability}),
 		},
 	).Create(&attendee)

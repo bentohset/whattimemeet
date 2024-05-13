@@ -31,7 +31,7 @@ func ConnectDB() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	DB.AutoMigrate(&model.Meeting{}, &model.Attendee{})
+	DB.AutoMigrate(&model.Meeting{}, &model.Attendee{}, &model.Feedback{})
 
 	fmt.Println("Connection Opened to Database")
 }
