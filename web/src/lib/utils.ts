@@ -7,14 +7,10 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getDomainName() {
-  const url = process.env.NEXT_PUBLIC_URL;
-  if (!url) {
-    if (process.env.NODE_ENV === "development") {
-      return "http://localhost:3000";
-    }
-    return "https://whattimemeet.com";
+  if (process.env.NODE_ENV === "development") {
+    return process.env.NEXT_PUBLIC_URL_LOCAL;
   }
-  return url;
+  return process.env.NEXT_PUBLIC_URL_PROD;
 }
 
 export function parseTimeStrings(start: string, end: string) {
