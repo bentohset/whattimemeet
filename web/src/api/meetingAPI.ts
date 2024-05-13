@@ -44,7 +44,6 @@ export const createMeeting = async (
 ): Promise<APIResponse> => {
   try {
     const response = await API.post("/meeting", meetingData);
-    console.log(process.env.NEXT_PUBLIC_API_URL_LOCAL);
     return response.data;
   } catch (error) {
     if (error.response.status === 400) {
