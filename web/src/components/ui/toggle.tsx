@@ -3,6 +3,7 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 
+// eslint-disable-next-line import/no-extraneous-dependencies
 import * as TogglePrimitive from "@radix-ui/react-toggle";
 
 import { cn } from "@/lib/utils";
