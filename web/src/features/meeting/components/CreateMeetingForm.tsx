@@ -43,7 +43,9 @@ export const CreateMeetingForm = () => {
   async function onSubmit(values: z.infer<typeof newMeetingSchema>) {
     setIsLoading(true);
 
-    const sortedDates = values.dates.sort((a: Date, b: Date) => a - b);
+    const sortedDates = values.dates.sort(
+      (a: Date, b: Date) => a.getTime() - b.getTime(),
+    );
 
     const dateStrings = sortedDates.map((date) =>
       moment(date).format("DD-MM-YYYY"),

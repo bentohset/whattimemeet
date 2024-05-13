@@ -9,7 +9,10 @@ export type APIResponse = {
 };
 
 export const API = axios.create({
-  baseURL: "http://localhost:8080/api",
+  baseURL:
+    process.env.NODE_ENV === "development"
+      ? process.env.NEXT_API_URL_LOCAL
+      : process.env.NEXT_API_URL_PROD,
   headers: {
     "Content-Type": "application/json",
   },
