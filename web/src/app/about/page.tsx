@@ -1,7 +1,7 @@
 import Link from "next/link";
 import React from "react";
 
-import { FeedbackForm } from "@/features/login";
+import { FeedbackForm } from "@/features/feedback";
 
 const page = () => {
   return (

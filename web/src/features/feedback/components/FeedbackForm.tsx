@@ -17,7 +17,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 
+import { logInfo } from "@/lib/toast";
+
 import { feedbackSchema } from "../types/feedback.schema";
+
+import { postFeedback } from "@/api/feedbackAPI";
 
 export const FeedbackForm = () => {
   const form = useForm<z.infer<typeof feedbackSchema>>({
@@ -28,8 +32,16 @@ export const FeedbackForm = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof feedbackSchema>) {
+  async function onSubmit(values: z.infer<typeof feedbackSchema>) {
     console.log(values);
+    const response = await postFeedback({
+      feedback: values.feedback,
+      contact: values.contact,
+    });
+    if (response.status === "success") {
+      form.reset();
+      logInfo("Successfully submitted feedback. Thank you!");
+    }
   }
 
   return (
@@ -67,7 +79,7 @@ export const FeedbackForm = () => {
               </FormLabel>
               <FormControl className="w-full">
                 <Textarea
-                  placeholder="any feedback or question you have"
+                  placeholder="any feedback or bugs or question you have"
                   {...field}
                 />
               </FormControl>
