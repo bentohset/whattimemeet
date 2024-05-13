@@ -14,7 +14,7 @@
   ],
   "parserOptions": {
     "project": "tsconfig.json",
-    "tsconfigRootDir": "./web",
+    "tsconfigRootDir": ".",
     "sourceType": "module"
   },
   "plugins": [

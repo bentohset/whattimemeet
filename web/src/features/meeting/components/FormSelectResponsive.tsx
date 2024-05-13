@@ -39,7 +39,8 @@ interface Option {
 type Props = {
   data: Option[];
   form: UseFormReturn<FieldValues, undefined>;
-  field: ControllerRenderProps<FieldValues>;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  field: ControllerRenderProps<FieldValues, any>;
   placeholder: string;
 };
 
