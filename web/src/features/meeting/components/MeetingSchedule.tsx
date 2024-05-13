@@ -111,7 +111,11 @@ export const MeetingSchedule = (props: Props) => {
     props.data.dates.length,
   );
 
-  const totalPersons = props.data.attendees.length;
+  // remove out attendees with empty availability (all 0s)
+  const totalPersons = props.data.attendees.filter((a) => {
+    const avail = a.availability.split(" ");
+    return !avail.every((elem) => elem === "0");
+  }).length;
 
   const convertToColor = (value) => {
     let r = 22;
@@ -137,10 +141,11 @@ export const MeetingSchedule = (props: Props) => {
   return (
     <div>
       <h1 className="font-semibold text-xl">Everyone&apos;s Availability</h1>
+      <p className="mb-2">Hover over to see availability</p>
       <div className="flex flex-row w-full">
         {/* display timestamps */}
         <div className="flex flex-col items-end mr-2">
-          <div className="h-5" />
+          <div className="h-9" />
           {timings.map((o) => {
             const minMeridian = o.split(":")[1];
 
@@ -154,43 +159,49 @@ export const MeetingSchedule = (props: Props) => {
             return <div className="h-5" key={o} />;
           })}
         </div>
-        {props.data.dates.map((date, col) => {
-          return (
-            <div key={date} className="w-full flex flex-col">
-              <h1 className="h-5 text-center">
-                <span>{moment(date, "DD-MM-YYYY").format("DD MMM")}</span>
-                <span className="text-xs ml-2">
-                  {moment(date, "DD-MM-YYYY").format("ddd")}
-                </span>
-              </h1>
-              {timings.map((time, row) => {
-                return (
-                  <TooltipProvider key={time} delayDuration={100}>
-                    <Tooltip>
-                      <TooltipTrigger>
-                        <div
-                          key={time}
-                          className={cn("h-5 border-[0.5px] border-zinc-700")}
-                          style={{
-                            backgroundColor: convertToColor(
-                              avails[row][col].total,
-                            ),
-                          }}
-                        />
-                      </TooltipTrigger>
-                      <TooltipContent>
-                        <p>{time}</p>
-                        {avails[row][col].names.map((name) => (
-                          <p key={name}>{name}</p>
-                        ))}
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
-                );
-              })}
-            </div>
-          );
-        })}
+        <div className="w-[550px] overflow-x-scroll flex flex-row">
+          {props.data.dates.map((date, col) => {
+            return (
+              <div key={date} className="w-14 flex flex-col">
+                <div className="h-9">
+                  <h1 className="text-center text-xs">
+                    {moment(date, "DD-MM-YYYY").format("DD MMM")}
+                  </h1>
+                  <h1 className="text-center text-xs">
+                    {moment(date, "DD-MM-YYYY").format("ddd")}
+                  </h1>
+                </div>
+                {timings.map((time, row) => {
+                  return (
+                    <TooltipProvider key={time} delayDuration={100}>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <div
+                            key={time}
+                            className={cn(
+                              "h-5 border-[0.5px] border-zinc-400 w-14",
+                            )}
+                            style={{
+                              backgroundColor: convertToColor(
+                                avails[row][col].total,
+                              ),
+                            }}
+                          />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{time}</p>
+                          {avails[row][col].names.map((name) => (
+                            <p key={name}>{name}</p>
+                          ))}
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  );
+                })}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </div>
   );

@@ -167,21 +167,25 @@ const page = ({ params }: { params: { id: string } }) => {
         </div>
       </section>
 
-      <section className="w-full grid md:grid-cols-2 grid-cols-1 md:gap-x-12 gap-y-4 md:gap-y-0">
-        <MeetingSchedule data={meeting} />
-        {isLoggedIn ? (
-          <Scheduler
-            user={userData}
-            meeting={meeting}
-            setAvail={setUserAvail}
-            userAvail={userAvail}
-          />
-        ) : (
-          <div className="flex flex-col gap-y-4">
-            <h1>Login to submit your availability</h1>
-            <LoginForm submitFn={handleLogin} />
-          </div>
-        )}
+      <section className="w-full flex md:flex-row flex-col md:gap-x-12 gap-y-4 md:gap-y-0">
+        <div className="md:w-1/2">
+          <MeetingSchedule data={meeting} />
+        </div>
+        <div className="md:w-1/2">
+          {isLoggedIn ? (
+            <Scheduler
+              user={userData}
+              meeting={meeting}
+              setAvail={setUserAvail}
+              userAvail={userAvail}
+            />
+          ) : (
+            <div className="flex flex-col gap-y-4">
+              <h1>Login to submit your availability</h1>
+              <LoginForm submitFn={handleLogin} />
+            </div>
+          )}
+        </div>
       </section>
     </div>
   );

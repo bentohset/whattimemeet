@@ -1,5 +1,10 @@
+"use client";
+
 import moment from "moment";
 import React, { useState } from "react";
+import { useMediaQuery } from "usehooks-ts";
+
+import { Toggle } from "@/components/ui/toggle";
 
 import { cn, parseTimeStrings } from "@/lib/utils";
 
@@ -59,8 +64,69 @@ export const Scheduler = (props: Props) => {
     }
   };
 
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  // mobile version
+  if (!isDesktop) {
+    return (
+      <div className="">
+        <h1 className="font-semibold text-xl">
+          {props.user.name}&apos;s Availability
+        </h1>
+        <p className="mb-2">Click to select availability</p>
+        <div className="flex flex-row w-full">
+          <div className="w-[550px] overflow-x-scroll flex flex-row gap-x-1">
+            {props.meeting.dates.map((date, col) => {
+              return (
+                <div key={date} className="flex flex-col w-14">
+                  <div className="h-9 w-full">
+                    <h1 className="text-center text-xs">
+                      {moment(date, "DD-MM-YYYY").format("DD MMM")}
+                    </h1>
+                    <h1 className="text-center text-xs">
+                      {moment(date, "DD-MM-YYYY").format("ddd")}
+                    </h1>
+                  </div>
+                  {timings.map((time, row) => {
+                    return (
+                      <Toggle
+                        key={time}
+                        variant="outline"
+                        value={props.userAvail[row][col]}
+                        onPressedChange={() => handleSelectCell(row, col)}
+                        className="text-xs data-[state=on]:bg-green-500 m-1"
+                      >
+                        {time}
+                      </Toggle>
+                      // <div
+                      //   key={time}
+                      //   role="presentation"
+                      //   onMouseDown={() => handleSelectCell(row, col)}
+                      //   onMouseUp={handleMouseUp}
+                      //   onMouseOver={() => handleMouseMove(row, col)}
+                      //   onFocus={() => undefined}
+                      //   onMouseOut={() => undefined}
+                      //   onBlur={() => undefined}
+                      //   className={cn(
+                      //     "h-5 border-[0.5px] w-14",
+                      //     props.userAvail[row][col] === 1
+                      //       ? "bg-green-700 border-zinc-200"
+                      //       : "bg-zinc-100 border-zinc-400",
+                      //   )}
+                      // />
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex flex-col w-full items-center">
+    <div className="">
       <h1 className="font-semibold text-xl">
         {props.user.name}&apos;s Availability
       </h1>
@@ -68,7 +134,7 @@ export const Scheduler = (props: Props) => {
       <div className="flex flex-row w-full">
         {/* display timestamps */}
         <div className="flex flex-col items-end mr-2">
-          <div className="h-5" />
+          <div className="h-9" />
           {timings.map((o) => {
             const minMeridian = o.split(":")[1];
 
@@ -82,40 +148,42 @@ export const Scheduler = (props: Props) => {
             return <div className="h-5" key={o} />;
           })}
         </div>
-        {props.meeting.dates.map((date, col) => {
-          return (
-            <div key={date} className="w-full flex flex-col">
-              <div>
-                <h1 className="h-5 text-center">
-                  <span>{moment(date, "DD-MM-YYYY").format("DD MMM")}</span>
-                  <span className="text-xs ml-2">
+        <div className="w-[550px] overflow-x-scroll flex flex-row">
+          {props.meeting.dates.map((date, col) => {
+            return (
+              <div key={date} className="flex flex-col w-14">
+                <div className="h-9">
+                  <h1 className="text-center text-xs">
+                    {moment(date, "DD-MM-YYYY").format("DD MMM")}
+                  </h1>
+                  <h1 className="text-center text-xs">
                     {moment(date, "DD-MM-YYYY").format("ddd")}
-                  </span>
-                </h1>
+                  </h1>
+                </div>
+                {timings.map((time, row) => {
+                  return (
+                    <div
+                      key={time}
+                      role="presentation"
+                      onMouseDown={() => handleSelectCell(row, col)}
+                      onMouseUp={handleMouseUp}
+                      onMouseOver={() => handleMouseMove(row, col)}
+                      onFocus={() => undefined}
+                      onMouseOut={() => undefined}
+                      onBlur={() => undefined}
+                      className={cn(
+                        "h-5 border-[0.5px] w-14",
+                        props.userAvail[row][col] === 1
+                          ? "bg-green-700 border-zinc-200"
+                          : "bg-zinc-100 border-zinc-400",
+                      )}
+                    />
+                  );
+                })}
               </div>
-              {timings.map((time, row) => {
-                return (
-                  <div
-                    key={time}
-                    role="presentation"
-                    onMouseDown={() => handleSelectCell(row, col)}
-                    onMouseUp={handleMouseUp}
-                    onMouseOver={() => handleMouseMove(row, col)}
-                    onFocus={() => undefined}
-                    onMouseOut={() => undefined}
-                    onBlur={() => undefined}
-                    className={cn(
-                      "h-5 border-[0.5px]",
-                      props.userAvail[row][col] === 1
-                        ? "bg-green-700 border-zinc-200"
-                        : "bg-zinc-100 border-zinc-400",
-                    )}
-                  />
-                );
-              })}
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
