@@ -116,9 +116,13 @@ export const CreateMeetingForm = () => {
                   mode="multiple"
                   selected={field.value}
                   onSelect={field.onChange}
-                  disabled={(date) =>
-                    date < new Date() || date < new Date("1900-01-01")
-                  }
+                  disabled={(date) => {
+                    const today = new Date();
+                    return (
+                      date.getTime() < today.setDate(today.getDate() - 1) ||
+                      date < new Date("1900-01-01")
+                    );
+                  }}
                   initialFocus
                 />
               </FormControl>
