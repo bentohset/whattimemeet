@@ -9,11 +9,23 @@ import (
 
 // Config func to get env value
 func Config(key string) string {
-	// load .env file
-	err := godotenv.Load(".env")
+	// Return the value of the variable
+	return os.Getenv(key)
+}
+
+func LoadEnv() {
+	env := os.Getenv("APP_ENV")
+	fmt.Println("environment: ", env)
+
+	var envFile string
+	if env == "production" {
+		envFile = ".env.production"
+	} else {
+		envFile = ".env.development"
+	}
+
+	err := godotenv.Load(envFile)
 	if err != nil {
 		fmt.Print("Error loading .env file")
 	}
-	// Return the value of the variable
-	return os.Getenv(key)
 }

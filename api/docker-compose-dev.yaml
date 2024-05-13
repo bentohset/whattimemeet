@@ -1,0 +1,12 @@
+version: "3"
+services:
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: whattimemeet-dev
+    ports:
+      - "8080:8080"
+    image: whattimemeet-dev:latest
+    env_file:
+      - .env.development

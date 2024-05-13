@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  server:
+    image: bentohset/whattimemeet:latest
+    container_name: whattimemeet
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env.production
+    environment:
+      - APP_ENV=production
+      - DOCKERHUB_USERNAME=bentohset
+      - DOCKERHUB_PASSWORD=$(DOCKER_PASSWORD)
+    ports:
+      - "8080:8080"
