@@ -3,19 +3,16 @@
 Relational: PostgreSQL
 
 Meetings {
-  id
-  title
-  description
-  startDate
-  endDate
-  startTime
-  endTime
-  createdAt
+id
+title
+description
+dates
+startTime
+endTime
 }
 
 MeetingAttendees {
-  id
-  meetingId
-  name
-  availability
+meetingId: compositekey
+name: compositekey
+availability
 }

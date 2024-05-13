@@ -4,6 +4,7 @@ services:
   server:
     image: bentohset/whattimemeet:latest
     container_name: whattimemeet
+    platform: linux/amd64
     build:
       context: .
       dockerfile: Dockerfile
