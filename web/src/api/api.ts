@@ -11,8 +11,8 @@ export type APIResponse = {
 export const API = axios.create({
   baseURL:
     process.env.NODE_ENV === "development"
-      ? process.env.NEXT_API_URL_LOCAL
-      : process.env.NEXT_API_URL_PROD,
+      ? process.env.NEXT_PUBLIC_API_URL_LOCAL
+      : process.env.NEXT_PUBLIC_API_URL_PROD,
   headers: {
     "Content-Type": "application/json",
   },
