@@ -4,7 +4,13 @@
 
 import moment from "moment";
 import React from "react";
+import { useMediaQuery } from "usehooks-ts";
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import {
   Tooltip,
   TooltipContent,
@@ -138,10 +144,80 @@ export const MeetingSchedule = (props: Props) => {
     return `rgb(${r} ${g} ${b})`;
   };
 
+  const isDesktop = useMediaQuery("(min-width: 768px)");
+
+  if (!isDesktop) {
+    return (
+      <div>
+        <h1 className="font-semibold text-xl">Everyone&apos;s Availability</h1>
+        <p className="mb-2">Click on the cells to see the availability</p>
+        <div className="flex flex-row w-full">
+          {/* display timestamps */}
+          <div className="flex flex-col items-end mr-2">
+            <div className="h-9" />
+            {timings.map((o) => {
+              const minMeridian = o.split(":")[1];
+
+              if (minMeridian.slice(0, 1) === "0") {
+                return (
+                  <div key={o} className="h-5">
+                    <p className="text-left text-xs">{o}</p>
+                  </div>
+                );
+              }
+              return <div className="h-5" key={o} />;
+            })}
+          </div>
+          <div className="w-[550px] overflow-x-scroll flex flex-row">
+            {props.data.dates.map((date, col) => {
+              return (
+                <div key={date} className="w-14 flex flex-col">
+                  <div className="h-9">
+                    <h1 className="text-center text-xs">
+                      {moment(date, "DD-MM-YYYY").format("DD MMM")}
+                    </h1>
+                    <h1 className="text-center text-xs">
+                      {moment(date, "DD-MM-YYYY").format("ddd")}
+                    </h1>
+                  </div>
+                  {timings.map((time, row) => {
+                    return (
+                      <Popover key={time}>
+                        <PopoverTrigger>
+                          <div
+                            key={time}
+                            className={cn(
+                              "h-5 border-[0.5px] border-zinc-400 w-14",
+                            )}
+                            style={{
+                              backgroundColor: convertToColor(
+                                avails[row][col].total,
+                              ),
+                            }}
+                          />
+                        </PopoverTrigger>
+                        <PopoverContent className="w-fit">
+                          <p className="font-semibold">{time}</p>
+                          {avails[row][col].names.map((name) => (
+                            <p key={name}>{name}</p>
+                          ))}
+                        </PopoverContent>
+                      </Popover>
+                    );
+                  })}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div>
       <h1 className="font-semibold text-xl">Everyone&apos;s Availability</h1>
-      <p className="mb-2">Hover over to see availability</p>
+      <p className="mb-2">Hover over to see the availability</p>
       <div className="flex flex-row w-full">
         {/* display timestamps */}
         <div className="flex flex-col items-end mr-2">
@@ -189,7 +265,7 @@ export const MeetingSchedule = (props: Props) => {
                           />
                         </TooltipTrigger>
                         <TooltipContent>
-                          <p>{time}</p>
+                          <p className="font-semibold">{time}</p>
                           {avails[row][col].names.map((name) => (
                             <p key={name}>{name}</p>
                           ))}
