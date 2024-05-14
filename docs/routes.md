@@ -78,7 +78,7 @@ Response:
 
 ## Update Availability
 
-`POST /api/meeting`
+`PUT /api/meeting`
 
 - finds an Attendee with name and meetingID
 - if exists, update the Attendee entry

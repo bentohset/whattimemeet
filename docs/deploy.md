@@ -118,3 +118,6 @@ sudo certbot --nginx
 - domain name: api.DOMAIN
 
 9. check if server is up
+
+sudo nano /etc/nginx/sites-available/default
+sudo systemctl restart nginx

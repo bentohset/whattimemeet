@@ -111,11 +111,11 @@ func DeleteMeeting(c *fiber.Ctx) error {
 func SetupMeetingRoutes(router fiber.Router) {
 	mt := router.Group("/meeting")
 
-	mt.Get("/", GetAllMeetings)
 	// Create a Meeting
 	mt.Post("/", ValidateNewMeeting, CreateMeeting)
 	// Update availability
 	mt.Put("/", UpdateAvailability)
+	mt.Get("/all", GetAllMeetings)
 	// Get all Notes
 	mt.Get("/:id", GetMeeting)
 	// Delete a meeting
