@@ -161,7 +161,7 @@ export const MeetingPage = (props: Props) => {
     <>
       <section className="flex flex-col w-full gap-y-2">
         <h1 className="font-bold text-2xl">{meeting && meeting.title}</h1>
-        <p className="font-semibold text-zinc-400">
+        <p className="font-medium text-zinc-400 whitespace-pre-line">
           {meeting && meeting.description}
         </p>
         <p>To invite people to this meeting, share this URL:</p>
