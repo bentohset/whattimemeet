@@ -10,6 +10,19 @@ import (
 	"gorm.io/gorm/clause"
 )
 
+func GetAllMeetings(c *fiber.Ctx) error {
+	db := database.DB
+
+	var meetings []model.Meeting
+
+	err := db.Find(&meetings).Error
+	if err != nil {
+		return c.Status(500).JSON(fiber.Map{"status": "error", "message": "Error retrieving meetings", "data": err})
+	}
+
+	return c.JSON(fiber.Map{"status": "success", "message": "Meetings retrieved", "data": meetings})
+}
+
 func GetMeeting(c *fiber.Ctx) error {
 	db := database.DB
 	var meeting model.Meeting
@@ -22,7 +35,7 @@ func GetMeeting(c *fiber.Ctx) error {
 		return c.Status(404).JSON(fiber.Map{"status": "error", "message": "No meeting found", "data": nil})
 	}
 
-	return c.JSON(fiber.Map{"status": "success", "message": "Notes Found", "data": meeting})
+	return c.JSON(fiber.Map{"status": "success", "message": "Meeting Found", "data": meeting})
 }
 
 func CreateMeeting(c *fiber.Ctx) error {
@@ -98,6 +111,7 @@ func DeleteMeeting(c *fiber.Ctx) error {
 func SetupMeetingRoutes(router fiber.Router) {
 	mt := router.Group("/meeting")
 
+	mt.Get("/", GetAllMeetings)
 	// Create a Meeting
 	mt.Post("/", ValidateNewMeeting, CreateMeeting)
 	// Update availability
