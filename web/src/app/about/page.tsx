@@ -3,7 +3,7 @@ import React from "react";
 
 import { FeedbackForm } from "@/features/feedback";
 
-const page = () => {
+const page = async () => {
   return (
     <div className="md:px-24 p-8 max-w-5xl flex-col items-center justify-between font-mono text-sm lg:flex space-y-14">
       <section className="flex flex-col w-full gap-y-8">
