@@ -1,3 +1,27 @@
+# Deployment
+
+## Deploy updated web server
+
+TODO: automate this using GithubActions and lambda function
+TODO: release server and staging server
+
+- ensure no downtime on deployment; fallback server
+
+1. Push latest version to DockerHub
+
+```
+make docker-push
+```
+
+2. SSH into ec2
+
+3. Update the image and re-run
+   On ec2:
+
+```
+updateimage
+```
+
 ## Deploy on EC2 from scratch
 
 1. initialize EC2 instance
