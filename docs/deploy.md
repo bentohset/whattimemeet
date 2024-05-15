@@ -1,5 +1,7 @@
 # Deployment
 
+This document describes how the backend Fiber application is and should be deployed.
+
 ## Deploy updated web server
 
 TODO: automate this using GithubActions and lambda function

@@ -2,6 +2,9 @@ DIST_PATH=./dist
 IMG_NAME = whattimemeet:latest
 PROJ_NAME = whattimemeet
 
+install:
+	go mod download
+
 build:
 	go build -o $(DIST_PATH)/server main.go
 

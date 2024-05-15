@@ -51,6 +51,37 @@ Response:
 }
 ```
 
+## Get All Meetings
+
+`GET /api/meeting/all`
+
+- retrieves all meetings
+- join with MeetingAttendees and get all availabilities
+
+Response:
+
+```
+[
+  {
+    id
+    title
+    description
+    startDate
+    endDate
+    startTime
+    endTime
+    createdAt
+    availabilities: [
+      {name, availability},
+      ...
+    ]
+  },
+  {
+    ...
+  }
+]
+```
+
 ## Quick login (no password)
 
 `POST /api/login`
@@ -95,3 +126,49 @@ Body:
 ```
 
 Response: OK
+
+## Submit Feedback
+
+`POST /api/fedback`
+
+- creates a feedback entry
+
+Body:
+
+```
+{
+  "feedback": "",
+  "contact": "",
+}
+```
+
+Reponse: OK
+
+## Get All Feedback
+
+`GET /api/feedback`
+
+- retrieves all feedback entries
+
+Response:
+
+```
+[
+  {
+    "id": "",
+    "feedback": "",
+    "contact": "",
+  },
+  {
+    ...
+  }
+]
+```
+
+## Delete Feedback
+
+`DELETE /api/feedback/{id}`
+
+- deletes a feedback entry associated to ID
+
+Reponse: OK
