@@ -5,6 +5,7 @@ This document describes how the backend Fiber application is and should be deplo
 ## Deploy updated web server
 
 TODO: automate this using GithubActions and lambda function
+
 TODO: release server and staging server
 
 - ensure no downtime on deployment; fallback server
@@ -119,7 +120,15 @@ sudo certbot --nginx
 
 - domain name: api.DOMAIN
 
-9. check if server is up
+9. check NGINX configuration
 
+```
 sudo nano /etc/nginx/sites-available/default
 sudo systemctl restart nginx
+```
+
+10. check server is up
+
+accessible from HTTP (thru public IPv4 address) and HTTPS (from DNS)
+
+- may take up to 5min to propogate
